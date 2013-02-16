@@ -1,4 +1,3 @@
-/*
 
 class OrbiterPlanet extends Planet {
   
@@ -7,20 +6,20 @@ class OrbiterPlanet extends Planet {
     super(pc,rad);  
   }
   
-  //displays on a 100px radius orbit
- void display(float xpos,float ypos,float zpos) {
-  
-   pushMatrix();
-   rotateY(PI*millis()/1000);
-   translate(0,0,100);
-   super.display(xpos,ypos,zpos);
-   popMatrix(); 
+  //displays with on orbital radius orbRad, then popMatrix
+ void orbit(float orbRad) {
+    rotateY(PI*millis()/1000);
+    translate(0,0,orbRad);
+    super.display();
+    popMatrix();
+  }
+ 
      
    
      
  } 
  
  
-}
 
-*/
+
+

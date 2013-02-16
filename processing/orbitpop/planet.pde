@@ -15,16 +15,15 @@ class Planet {
    sphere(radius); 
    
   }
-  //Display Planet at location
+  //Display Planet at location, and does not popMatrix
   void displayAt(float xpos, float ypos, float zpos) {
         
     pushMatrix();
     translate(xpos,ypos,zpos);
     display();
-    popMatrix();
   }
-  
-  void orbit(float xpos,float ypos,float zpos,float orbRad) {
+  //unused method right now
+  void orbitAt(float xpos,float ypos,float zpos,float orbRad) {
    
     pushMatrix();
     translate(xpos,ypos,zpos);

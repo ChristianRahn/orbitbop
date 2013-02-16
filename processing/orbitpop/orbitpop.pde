@@ -1,5 +1,5 @@
 Planet blackSun;
-Planet mars;
+OrbiterPlanet mars;
 
 void setup() {
   size(600,600,P3D);
@@ -7,9 +7,9 @@ void setup() {
   noStroke();
   
   //Black sun
-  blackSun=new Planet(color(0,200,100),30);
+  blackSun=new Planet(color(80),30);
   //Mars (red)
-  mars=new Planet(color(255,0,0),50);
+  mars=new OrbiterPlanet(color(255,0,0),50);
   
 
 }
@@ -23,7 +23,7 @@ void draw() {
   
   //Draw blackSun in center
   blackSun.displayAt(width/2,height/2,0);
-  mars.orbit(mouseX,mouseY,0,200);
+  mars.orbit(100);
   
  
  
