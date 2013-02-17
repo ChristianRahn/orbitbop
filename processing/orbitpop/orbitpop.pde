@@ -1,5 +1,7 @@
 ArrayList<Planet> planetList;
 
+//*************SETUP
+
 void setup() {
   size(800,600,P3D);
   background(150);
@@ -7,29 +9,22 @@ void setup() {
   
   planetList = new ArrayList<Planet>();
   
-  //origin point at center
-  Planet blackSun=new Planet(color(80),20,width/2,height/2,-200);
- 
-  Planet blueSun=new Planet(color(50,50,200),30,width*.01,height*.01,-1000);
-  Planet greenSun=new Planet(color(50,200,50),40,width*.99,height*.99,-1000);
+  //A few stationary planets in the background
+  Planet redSun=new Planet(color(200,50,50),20,width/2,height/2,-200);
+  Planet blueSun=new Planet(color(50,50,200),30,-width/2,-height/2,-width*2);
+  Planet greenSun=new Planet(color(50,200,50),40,width*1.5,height*1.5,-width*2);
   
-  planetList.add(blackSun);
+  planetList.add(redSun);
   planetList.add(blueSun);
   planetList.add(greenSun);
   
-  
-  /*
-  //Mars orbiting origin
-  Planet mars=new OrbiterPlanet(color(255,0,0),30,150);
-  blackSun.addChild(mars);
-  
-  //anonymous mars orbiter
-  mars.addChild(new OrbiterPlanet(color(0,42,99),10,100));
- */
 
 }
 
-//performance test, woot! -all planets random greyscale
+
+//************** DO THESE GO HERE?
+
+//adds an orbiting greyscale planet to any existing body randomly
 void addRandomOrbiter(ArrayList<Planet> planets) {
   //randomizer coin
   boolean coin;
@@ -37,16 +32,14 @@ void addRandomOrbiter(ArrayList<Planet> planets) {
   //random array location
   int rp = int(random(planets.size()));
   
-  //random planet stats
+  //random orbiter stats
   float rc = random(255);
   float rr = random(5,15);
-  float rx = width/random(10);
-  float ry = height/random(10);
-  float rz = random(-500,100);
   float rorb = random(60,500);
   
-  //if the ArrayList is empty, add an orbiter to it
+  //if this.ArrayList is empty, add an orbiter to it
   if (planets.size() == 0) {planets.add(new OrbiterPlanet(color(rc),rr,rorb));}
+  
   else {
   
   //if coin true, add an orbiter to a random planet
@@ -60,14 +53,15 @@ void addRandomOrbiter(ArrayList<Planet> planets) {
 }
 }
 
+//Rendering function for all planet objects
 void drawPlanets(ArrayList<Planet> planets) {
   //for each planet
   for (Planet planet : planets) {
-   //push the matrix to the planet position
+   //push matrix and move to the planet position (no pop)
     planet.moveToPosition();
-  //draw the planet
+    //draw the planet
     planet.display();
-  //draw all its children
+    //draw all its children
     drawPlanets(planet.getChildren());
   //pop after each planet drawn
   popMatrix();
@@ -75,6 +69,8 @@ void drawPlanets(ArrayList<Planet> planets) {
   }
   
 }
+
+//***********DRAW
 
 void draw() {
   //grey background, each time
@@ -86,12 +82,18 @@ void draw() {
   
   //render all planets
   drawPlanets(planetList);   
-  
-  //new orbiter every 5 seconds
-  if (frameCount%150 == 0) {
-    addRandomOrbiter(planetList);
-  }
-
  
+}
+
+//***************INPUT INTERACTIONS
+
+//adds a stationary planet at click (z at screen - correct for depth later)
+void mousePressed() {
+     planetList.add(new Planet(color(random(255),random(255),random(255)),20,mouseX,mouseY,0));
+}
+
+//adds a random orbiter when any key is pressed
+void keyPressed() {
+  addRandomOrbiter(planetList);
 }
 
