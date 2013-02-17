@@ -97,3 +97,74 @@ void keyPressed() {
   addRandomOrbiter(planetList);
 }
 
+
+class OrbiterPlanet extends Planet {
+  float orbRad;
+  float Xoff;
+  float Zoff;
+  
+  //Constructor  
+  OrbiterPlanet(color pc, float rad, float orbRad) {
+    super(pc,rad,0,0,0);
+    this.orbRad=orbRad;
+    //random Y and Z tilts up to 45deg
+    this.Xoff = random(-45,45);
+    this.Zoff = random(-45,45);
+        
+  }
+  
+ void moveToPosition() {
+    pushMatrix();
+    rotateY(PI * frameCount/200);
+    rotateX(radians(Xoff));
+    rotateZ(radians(Zoff));
+    translate(0,0,orbRad);
+    }
+ 
+     
+   
+     
+ } 
+ 
+ 
+
+
+
+class Planet {
+  color c; //fill color
+  float radius;
+  float xpos;
+  float ypos;
+  float zpos;
+  ArrayList<Planet> childList;
+  
+//Constructor  
+  Planet(color pc, float rad,float xpos,float ypos, float zpos) {
+    c = pc;
+    radius = rad;
+    childList = new ArrayList();  
+    this.xpos=xpos;
+    this.ypos=ypos;
+    this.zpos=zpos;
+    
+  }
+  
+  void display() {
+   fill(c);
+   sphere(radius); 
+   
+  }
+  //Display Planet at location, and does not popMatrix
+  void moveToPosition() {
+    pushMatrix();
+    translate(xpos,ypos,zpos);
+  }
+    
+  void addChild(Planet planet) {
+    childList.add(planet);
+  }
+  
+  ArrayList<Planet> getChildren() {return childList;}
+  
+}
+

@@ -8,17 +8,17 @@ class OrbiterPlanet extends Planet {
   OrbiterPlanet(color pc, float rad, float orbRad) {
     super(pc,rad,0,0,0);
     this.orbRad=orbRad;
-    //random Y and Z tilts up to 20deg
-    this.Xoff = random(-20,20);
-    this.Zoff = random(-20,20);
+    //random Y and Z tilts up to 45deg
+    this.Xoff = random(-45,45);
+    this.Zoff = random(-45,45);
         
   }
   
  void moveToPosition() {
     pushMatrix();
+    rotateY(PI * frameCount/200);
     rotateX(radians(Xoff));
     rotateZ(radians(Zoff));
-    rotateY(PI * frameCount/200);
     translate(0,0,orbRad);
     }
  
