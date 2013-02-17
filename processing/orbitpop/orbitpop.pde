@@ -8,7 +8,7 @@ void setup() {
   planetList = new ArrayList<Planet>();
   
   //Black sun
-  Planet blackSun=new Planet(color(80),30,width*.3,height*.3,0);
+  Planet blackSun=new Planet(color(80),30,width/2,height/2,0);
   Planet blueSun=new Planet(color(0,0,255),20,width*.6,height*.6,0);
   planetList.add(blackSun);
   planetList.add(blueSun);
@@ -16,7 +16,7 @@ void setup() {
   //Mars (red)
   Planet mars=new OrbiterPlanet(color(255,0,0),50,150);
   blackSun.addChild(mars);
-  mars.addChild(new OrbiterPlanet(color(0,42,99),30,100));
+  mars.addChild(new OrbiterPlanet(color(0,42,99),10,100));
  
 
 }
@@ -25,16 +25,16 @@ void drawPlanets(ArrayList<Planet> planets) {
   //for each planet
   for (Planet planet : planets) {
    //push the matrix to the planet position
-   planet.moveToPosition();
-  
+    planet.moveToPosition();
   //draw the planet
-  planet.display();
-  
-  drawPlanets(planet.getChildren());
+    planet.display();
+  //draw all its children
+    drawPlanets(planet.getChildren());
+  //pop after each planet drawn
   popMatrix();
   
   }
-  //pop the matrix
+  
 }
 
 void draw() {
@@ -43,6 +43,7 @@ void draw() {
   //lights
   lights();
   
+  //render all planets
   drawPlanets(planetList);   
 
  
