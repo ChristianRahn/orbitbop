@@ -18,7 +18,7 @@ class OrbiterPlanet extends Planet {
     pushMatrix();
     rotateX(radians(Xoff));
     rotateZ(radians(Zoff));
-    rotateY(PI*millis()/1000);
+    rotateY(PI * frameCount/200);
     translate(0,0,orbRad);
     }
  
