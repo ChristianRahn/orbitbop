@@ -3,7 +3,7 @@ ArrayList<Planet> planetList;
 //*************SETUP
 
 void setup() {
-  size(1440,900,P3D);
+  size(800,600,P3D);
   background(150);
   noStroke();
   
@@ -82,6 +82,9 @@ void draw() {
   
   //render all planets
   drawPlanets(planetList);   
+  
+  fill(0);
+  text("Click to add Planet, Press a key to add a Moon randomly to any existing body",10,10);
  
 }
 
