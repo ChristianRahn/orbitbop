@@ -2,7 +2,6 @@ class Body {
   PVector location;
   PVector velocity;
   PVector acceleration;
-  //float mass;
   float radius;
   color c;
   float topspeed;
@@ -14,7 +13,7 @@ class Body {
     velocity = new PVector(0,0,0);
     acceleration = new PVector(0,0,0);
     radius = 20;
-    c = 100;
+    c = color(random(255),random(255),random(255));
     topspeed = 5;
     
   }
@@ -33,6 +32,25 @@ class Body {
     translate(location.x,location.y,location.z);
     sphere(radius);
     popMatrix();
+}
+
+void noiseAccel() {
+  PVector ra;
+  float xoff = random(0,1000);
+  float yoff = random(0,1000);
+  float zoff = random(0,1000);
+  
+  float x = map(noise(xoff),0,1,-1,1);
+  float y = map(noise(yoff),0,1,-1,1);
+  float z = map(noise(zoff),0,1,-1,1);
+  
+  ra = new PVector(x,y,z);
+  
+  acceleration.add(ra);
+  
+  xoff += .1;
+  yoff += .1;
+  
 }
 
 void bounceWall(Container container) {
@@ -66,7 +84,7 @@ void bounceWall(Container container) {
   
 }
 
-//Wraps edges
+//Wraps edges FIX BEFORE IMPLEMENT
 void checkEdges() {
     if (location.x > width) {
       location.x = 0;
