@@ -12,7 +12,7 @@ class Body {
     location = new PVector(width/2,height/2,0);
     velocity = new PVector(0,0,0);
     acceleration = new PVector(0,0,0);
-    radius = 20;
+    radius = 10;
     c = color(random(255),random(255),random(255));
     topspeed = 5;
     
@@ -34,8 +34,9 @@ class Body {
     popMatrix();
 }
 
+//Perlin Acceleration
 void noiseAccel() {
-  PVector ra;
+  PVector na;
   float xoff = random(0,1000);
   float yoff = random(0,1000);
   float zoff = random(0,1000);
@@ -44,12 +45,26 @@ void noiseAccel() {
   float y = map(noise(yoff),0,1,-1,1);
   float z = map(noise(zoff),0,1,-1,1);
   
-  ra = new PVector(x,y,z);
+  na = new PVector(x,y,z);
   
-  acceleration.add(ra);
+  acceleration.add(na);
   
   xoff += .1;
   yoff += .1;
+  
+}
+
+//Random Acceleration
+void randAccel() {
+  PVector ra;
+  
+  float x = random(-1,1);
+  float y = random(-1,1);
+  float z = random(-1,1);
+  
+  ra = new PVector(x,y,z);
+  
+  acceleration.add(ra);
   
 }
 

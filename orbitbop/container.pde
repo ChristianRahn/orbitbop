@@ -10,7 +10,7 @@ class Container {
   }
   
   void display() {
-    noFill();
+    fill(0,0,100,50);
     stroke(c);
     strokeWeight(3);
     
