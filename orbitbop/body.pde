@@ -51,6 +51,7 @@ void noiseAccel() {
   
   xoff += .1;
   yoff += .1;
+  zoff += .1;
   
 }
 
@@ -66,6 +67,28 @@ void randAccel() {
   
   acceleration.add(ra);
   
+}
+
+boolean isInside(Container container) {
+  //Nested conditionals - seems like a good thing to do.
+  boolean isX = false;
+  boolean isY = false;
+  boolean isZ = false;
+  
+  if(location.x < (container.location.x+container.edge/2) && 
+      location.x > (container.location.x-container.edge/2))
+      {isX = true;}
+    
+  if(location.y < (container.location.y+container.edge/2) && 
+      location.y > (container.location.y-container.edge/2))
+      {isY = true;}
+  
+  if(location.z < (container.location.z+container.edge/2) && 
+      location.z > (container.location.z-container.edge/2))
+      {isZ = true;}    
+  
+  if (isX && isY && isZ) {return true;}
+  else {return false;}
 }
 
 void bounceWall(Container container) {
@@ -100,6 +123,7 @@ void bounceWall(Container container) {
 }
 
 //Wraps edges FIX BEFORE IMPLEMENT
+/*
 void checkEdges() {
     if (location.x > width) {
       location.x = 0;
@@ -119,6 +143,7 @@ void checkEdges() {
       location.z = -100;
     }
     
-    
   }
+*/  
+  
 }

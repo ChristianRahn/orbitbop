@@ -3,15 +3,18 @@ class Container {
   float edge;
   color c;
   
-  Container() {
-    edge = 250;
-    c = color(255);
+  
+  Container(color colour, float e) {
+    edge = e;
+    c = colour;
     location = new PVector(width/2,height/2,0);
+    
+    
   }
   
   void display() {
-    fill(0,0,100,50);
-    stroke(c);
+    fill(c,50);
+    stroke(255);
     strokeWeight(3);
     
     pushMatrix();
