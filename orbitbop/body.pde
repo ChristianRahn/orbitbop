@@ -5,21 +5,27 @@ class Body {
   float radius;
   color c;
   float topspeed;
+  float mass;
   
   
   //Constructor, random for now
   Body() {
     location = new PVector(width/2,height/2,0);
     velocity = new PVector(0,0,0);
-    radius = 10;
+    acceleration = new PVector(0,0,0);
+    mass = random(10);
+    //Fixed density
+    radius = mass*3;
     c = color(random(255),random(255),random(255));
     topspeed = 10;
     
   }
   
   void update() {
+    velocity.add(acceleration);
     velocity.limit(topspeed);
     location.add(velocity);
+    acceleration.mult(0);
   }
   
   void display() {
@@ -32,7 +38,8 @@ class Body {
 }
 
 void applyForce(PVector force) {
-  velocity.add(force);
+  PVector f = PVector.div(force,mass);
+  acceleration.add(f);
 }
 
 //Perlin Acceleration
@@ -48,25 +55,11 @@ void noiseAccel() {
   
   na = new PVector(x,y,z);
   
-  acceleration.add(na);
+  applyForce(na);
   
   xoff += .1;
   yoff += .1;
   zoff += .1;
-  
-}
-
-//Random Acceleration
-void randAccel() {
-  PVector ra;
-  
-  float x = random(-1,1);
-  float y = random(-1,1);
-  float z = random(-1,1);
-  
-  ra = new PVector(x,y,z);
-  
-  applyForce(ra);
   
 }
 

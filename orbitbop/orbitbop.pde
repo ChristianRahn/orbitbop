@@ -4,7 +4,7 @@ Container gelGo;
 Container gelSlow;
 Container gelRand;
 
-PVector randAccel;
+PVector gravity;
 
 
 void setup() {
@@ -20,21 +20,23 @@ void setup() {
 
   
   //Containers
-  box = new Container(width/2, height/2, 0,color(0,0,100), 400);
-  gelGo = new Container((width/2-100),(height/2-100),-100, color(0,100,0), 100);
-  gelSlow = new Container((width/2+100),(height/2+100),100, color(100,0,0), 100);
+  box = new Container(width/2, height/2, 0,color(255), 600);
+  gelGo = new Container((width/2-200),(height/2-200),-200, color(0,100,0), 200);
+  gelSlow = new Container((width/2+200),(height/2+200),200, color(100,0,0), 200);
   gelRand = new Container(width/2,height/2,0,color(0), 100);
   
 }
 
 void draw() {
   //Movable camera
-  camera(mouseX, mouseY, (height/2.0) / tan(PI*30.0 / 180.0), 
+  camera(mouseX, mouseY, (height/2.0) / tan(PI*30.0 / 360.0), 
          width/2.0, height/2.0, 0, 
          0, 1, 0);
   
-  background(100);
+  background(0);
   lights();
+  directionalLight(128,128,128,0,1,-1);
+  
   
   //Show containers
   box.display();
@@ -47,26 +49,37 @@ void draw() {
   for (int i = 0; i < balls.size(); i++) {
     Body ball = (Body) balls.get(i);
     
-    //Random for each ball
-    randAccel = PVector.random3D();
-    
+    //Seal them in    
     ball.bounceWall(box);
-
+    
+    //Enviromental forces
+    gravity = new PVector(0,.1*ball.mass,0);
+    //ball.applyForce(gravity);
+    
     ball.update();
     ball.display();
     
     //Check if in any boxes
-    if (ball.isInside(gelRand)) {ball.applyForce(randAccel);}
+    
+    //gelRand will apply a random acceleration
+    if (ball.isInside(gelRand)) {
+      PVector rando = PVector.random3D();
+      rando.mult(ball.mass);
+      ball.applyForce(rando);
+    }
+    
+    //gelGo applies a force equal to vel unit
     if (ball.isInside(gelGo)) {
       PVector faster = ball.velocity.get();
       faster.normalize();
-      faster.mult(1);
+      faster.mult(ball.mass);
       ball.applyForce(faster);
     }
-    if (ball.isInside(gelSlow) && ball.velocity.mag()>1) {
+    //gelSlow applies inverse vel unit, but won't stop the ball
+    if (ball.isInside(gelSlow) && ball.velocity.mag()>2) {
       PVector slower = ball.velocity.get();
       slower.normalize();
-      slower.mult(-1);
+      slower.mult(-1*ball.mass);
       ball.applyForce(slower);
     }
     
@@ -76,7 +89,6 @@ void draw() {
   
   
   
-  //text(str(balls.size()),200,200);
     
 }
 

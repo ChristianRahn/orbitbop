@@ -14,8 +14,9 @@ class Container {
   
   void display() {
     fill(c,50);
-    stroke(255);
-    strokeWeight(3);
+    noStroke();
+    //stroke(255);
+    //strokeWeight(3);
     
     pushMatrix();
     translate(location.x,location.y,location.z);
