@@ -4,10 +4,10 @@ class Container {
   color c;
   
   
-  Container(color colour, float e) {
+  Container(float xpos, float ypos, float zpos, color colour, float e) {
     edge = e;
     c = colour;
-    location = new PVector(width/2,height/2,0);
+    location = new PVector(xpos, ypos, zpos);
     
     
   }

@@ -11,18 +11,15 @@ class Body {
   Body() {
     location = new PVector(width/2,height/2,0);
     velocity = new PVector(0,0,0);
-    acceleration = new PVector(0,0,0);
     radius = 10;
     c = color(random(255),random(255),random(255));
-    topspeed = 5;
+    topspeed = 10;
     
   }
   
   void update() {
-    velocity.add(acceleration);
     velocity.limit(topspeed);
     location.add(velocity);
-    acceleration.mult(0);
   }
   
   void display() {
@@ -32,6 +29,10 @@ class Body {
     translate(location.x,location.y,location.z);
     sphere(radius);
     popMatrix();
+}
+
+void applyForce(PVector force) {
+  velocity.add(force);
 }
 
 //Perlin Acceleration
@@ -65,7 +66,7 @@ void randAccel() {
   
   ra = new PVector(x,y,z);
   
-  acceleration.add(ra);
+  applyForce(ra);
   
 }
 
