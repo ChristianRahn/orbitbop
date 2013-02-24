@@ -1,10 +1,10 @@
 ArrayList<Body> balls;
 Container box;
-Container gel1;
-Container gel2;
-PVector faster = new PVector(1.1,1.1,1.1);
-PVector slower = new PVector(.99,.99,.99);
+Container gelGo;
+Container gelSlow;
+Container gelRand;
 
+PVector randAccel;
 
 
 void setup() {
@@ -17,18 +17,14 @@ void setup() {
   for (int i = 0; i < 25; i++) {
     balls.add(new Body());
   }
+
   
   //Containers
   box = new Container(width/2, height/2, 0,color(0,0,100), 400);
-  gel1 = new Container((width/2-100),(height/2-100),-100, color(0,100,0), 100);
-  gel2 = new Container((width/2+100),(height/2+100),100, color(100,0,0), 100);
+  gelGo = new Container((width/2-100),(height/2-100),-100, color(0,100,0), 100);
+  gelSlow = new Container((width/2+100),(height/2+100),100, color(100,0,0), 100);
+  gelRand = new Container(width/2,height/2,0,color(0), 100);
   
-  //Accelerate the balls at random
-  for (int i = 0; i < balls.size(); i++) {
-    Body ball = balls.get(i);
-    PVector accel = new PVector(random(-1,1), random(-1,1), random(-1,1));
-    ball.applyForce(accel);
-  }
 }
 
 void draw() {
@@ -37,26 +33,50 @@ void draw() {
          width/2.0, height/2.0, 0, 
          0, 1, 0);
   
-  background(200);
+  background(100);
   lights();
   
+  //Show containers
   box.display();
-  gel1.display();
-  gel2.display();
+  gelGo.display();
+  gelSlow.display();
+  gelRand.display();
   
-  for (int i = 0; i<balls.size(); i++) {
+  
+  //Ball handler (lol)
+  for (int i = 0; i < balls.size(); i++) {
     Body ball = (Body) balls.get(i);
     
-    ball.bounceWall(box);
+    //Random for each ball
+    randAccel = PVector.random3D();
     
-    if (ball.isInside(gel1)) {ball.velocity.mult(faster);}
-    if (ball.isInside(gel2)) {ball.velocity.mult(slower);}
+    ball.bounceWall(box);
 
-    //ball.randAccel();
     ball.update();
     ball.display();
+    
+    //Check if in any boxes
+    if (ball.isInside(gelRand)) {ball.applyForce(randAccel);}
+    if (ball.isInside(gelGo)) {
+      PVector faster = ball.velocity.get();
+      faster.normalize();
+      faster.mult(1);
+      ball.applyForce(faster);
+    }
+    if (ball.isInside(gelSlow) && ball.velocity.mag()>1) {
+      PVector slower = ball.velocity.get();
+      slower.normalize();
+      slower.mult(-1);
+      ball.applyForce(slower);
+    }
+    
+    
   
   }
+  
+  
+  
+  //text(str(balls.size()),200,200);
     
 }
 
